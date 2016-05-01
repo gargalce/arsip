@@ -1,0 +1,43 @@
+extends layout_in
+
+block content
+  .container
+    div(class="row")
+      div(class="col-lg-12")
+        div(class="panel-body")
+
+
+          each val, index in modules
+            div(class="col-lg-3 col-md-6")
+              div(class="panel panel-primary")
+                div(class="panel-heading")
+                  div(class="row")
+                    div(class="col-xs-3")
+                      i(class="#{val.info.ico} fa-5x")
+
+                    div(class="col-xs-9 text-right")
+                      div(class="huge") 26
+                      div New Comments!
+
+                a(href="/category/#{val.info.id}")
+                  div(class="panel-footer")
+                    span(class="pull-left")= val.info.name
+                    span(class="pull-right")
+                     i(class="fa fa-arrow-circle-right")
+                    div(class="clearfix")
+
+
+
+        div(class="panel panel-default")
+          div(class="panel-heading") Continguts
+          div(class="panel-body")
+            div(id="graph_content" style="ggheight: 250px;")
+            script.
+              new Morris.Line({
+                element: 'graph_content',
+                data: !{graph.data},
+                xkey: 'any',
+                ykeys: !{graph.ykeys},
+                labels: !{graph.labels},
+                resize:true
+              });

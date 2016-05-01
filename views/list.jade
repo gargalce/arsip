@@ -1,0 +1,75 @@
+extends layout_in
+
+block content
+  .container
+
+  div(class="row")
+    div(class="col-lg-12")
+      div(class="panel-body")
+        div(class="dataTable_wrapper")
+          h1  #{params.obj.list.length}
+
+
+
+
+
+          ul(id="pagination-demo" class="pagination-sm")
+          script.
+            $(document).ready(function() {
+              $('#pagination-demo').twbsPagination({
+                totalPages: !{pager.totalPages},
+                visiblePages: 7,
+                startPage: !{pager.page},
+                first: 'Inici',
+                prev: 'Anterior',
+                next: 'Pròxim',
+                last: 'Últim',
+                onPageClick: function (event, page) {
+                  if(page != !{pager.page})
+                    window.location.href = "!{pager.path}" + page;
+                }
+              });
+            });
+
+          | Elements trobats #{pager.totalItems}
+
+
+          if pager.totalItems <= 0
+            div(class="alert alert-warning align_center") No hi han dades
+          else
+            table(width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example")
+              thead
+                tr
+                  each val, index in params.obj.list
+                    th #{val.name}
+                  th Accions
+              tbody
+                  each val, index in results.hits.hits
+                    tr(class="odd gradeX")
+                      each x, y in params.obj.list
+                        td 
+                          if(x.transform)
+                            = x.transform
+                          else
+                            = val._source[y]
+                      td(class="align_center")
+                        span(class="glyphicon glyphicon-edit botton edititem" title="Editar" data-id="#{val._id}" data-type="#{val._type}")
+                        span(class="glyphicon glyphicon-remove botton deleteitem" title="Esborrar" data-id="#{val._id}" data-type="#{val._type}")
+
+block header
+  .container
+
+
+  div(class="row")
+    div(class="col-lg-12")
+      h1(class="page-header") #{params.obj.info.name}     
+  div(class="row")
+    div(class="col-md-6")
+      div(class="input-group")
+        form(role="form" method="get" action="#")
+          input(type="text",class="form-control", name="q", style="width:80%")
+          span(class="input-group-btn")
+          button(class="btn btn-default",type="submit", id="searchmodule") Buscar
+    div(class="col-md-5")
+      a(href="/new/#{req.params.category}")
+        button(class="btn btn-primary") Create #{params.obj.info.name}

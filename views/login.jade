@@ -1,0 +1,29 @@
+extends layout
+
+block content
+	.container
+
+	if (!user)
+
+		div(class="col-lg-6 vcenter")
+
+			if (message.length > 0)
+				div(class="alert alert-danger col-lg-12") 
+					span(class="glyphicon glyphicon-alert")
+					| #{message}
+
+			
+			div(class="box")
+				h1
+					img(src="/img/logo.png")
+
+				form(role='form', action="/",method="post", style='max-width: 300px;')
+					.form-group
+						input.form-control(type='text', name="username", placeholder='Enter Username')
+					.form-group
+							input.form-control(type='password', name="password", placeholder='Password')
+
+					button.btn.btn-default(type='submit') Submit
+
+					a(href='/')
+						button.btn.btn-primary(type="button") Cancel
